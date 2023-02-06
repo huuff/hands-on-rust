@@ -16,6 +16,11 @@
   in with pkgs;
   {
     devShell.${system} = mkShell {
+      nativeBuildInputs = [
+        pkg-config
+        clang
+        lld # To use lld linker
+      ];
       buildInputs = [
         (rust-bin.selectLatestNightlyWith (toolchain: toolchain.default.override {
           extensions = [ "rust-src" ];
@@ -23,9 +28,22 @@
         cargo
         fontconfig
         rust-analyzer
-        pkg-config
         cmake
+        xorg.libX11
+        xlibsWrapper
+        xorg.libXrandr
+        xorg.libXcursor
+        xorg.libXi
       ];
+      shellHook = ''
+      export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:${
+        lib.makeLibraryPath [
+          udev
+          alsaLib
+          vulkan-loader
+          libGL
+        ]
+      }"'';
     };
   };
 }
