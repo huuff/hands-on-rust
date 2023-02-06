@@ -17,12 +17,14 @@
   {
     devShell.${system} = mkShell {
       buildInputs = [
-        (rust-bin.beta.latest.default.override {
+        (rust-bin.selectLatestNightlyWith (toolchain: toolchain.default.override {
           extensions = [ "rust-src" ];
-        })
+        }))
         cargo
+        fontconfig
         rust-analyzer
         pkg-config
+        cmake
       ];
     };
   };
