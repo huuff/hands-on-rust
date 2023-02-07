@@ -13,7 +13,7 @@ enum GameMode {
 
 struct Player {
     x: i32,
-    y: i32,
+    y: f32,
     velocity: f32,
 }
 
@@ -21,29 +21,34 @@ impl Player {
     fn new(x: i32, y: i32) -> Self {
         Player {
             x,
-            y,
+            y: y as f32,
             velocity: 0.0,
         }
     }
 
     fn render(&mut self, ctx: &mut BTerm) {
-        ctx.set(
+        ctx.set_active_console(1);
+        ctx.cls();
+        ctx.set_fancy(
+            PointF { x: 0.0, y: self.y },
             0,
-            self.y,
+            Radians::new(0.0),
+            PointF { x: 1.0, y: 1.0},
             YELLOW,
             BLACK,
             to_cp437('@'),
-        )
+        );
+        ctx.set_active_console(0);
     }
 
     fn gravity_and_move(&mut self) {
         if self.velocity < 2.0 {
             self.velocity += 0.2;
         }
-        self.y += self.velocity as i32;
+        self.y += self.velocity;
         self.x += 1;
-        if self.y < 0 {
-            self.y = 0
+        if self.y < 0.0 {
+            self.y = 0.0
         }
     }
 
@@ -97,8 +102,8 @@ impl Obstacle {
     fn hit_obstacle(&self, player: &Player) -> bool {
         let half_size = self.size / 2;
         let does_x_match = player.x == self.x;
-        let player_above_gap = player.y < self.gap_y - half_size;
-        let player_below_gap = player.y > self.gap_y + half_size;
+        let player_above_gap = player.y < (self.gap_y - half_size) as f32;
+        let player_below_gap = player.y > (self.gap_y + half_size) as f32;
         does_x_match && (player_above_gap || player_below_gap)
     }
 }
@@ -147,7 +152,7 @@ impl State {
                 self.score,
             );
         }
-        if self.player.y > SCREEN_HEIGHT || self.obstacle.hit_obstacle(&self.player) {
+        if self.player.y > (SCREEN_HEIGHT as f32) || self.obstacle.hit_obstacle(&self.player) {
             self.mode = GameMode::End;
         }
     }
@@ -197,8 +202,6 @@ impl State {
 impl GameState for State {
 
     fn tick(&mut self, ctx: &mut BTerm) {
-        //ctx.cls();
-        //ctx.print(1, 1, "Hello, Bracket Terminal!");
         match self.mode {
             GameMode::Menu => self.main_menu(ctx),
             GameMode::End => self.dead(ctx),
@@ -209,6 +212,7 @@ impl GameState for State {
 
 fn main() -> BError {
     let context = BTermBuilder::simple80x50()
+                                .with_fancy_console(80, 50, "terminal8x8.png")
                                 .with_title("Flappy Dragon")
                                 .build()?;
     
