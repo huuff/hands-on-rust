@@ -1,5 +1,6 @@
 [workspace]
 
 members = [
-  "ch3-flappy-dragon"
+  "ch3-flappy-dragon",
+  "ch5-dungeon-crawler",
 ]
