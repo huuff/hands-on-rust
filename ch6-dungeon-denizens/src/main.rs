@@ -1,5 +1,4 @@
 mod map;
-mod player;
 mod map_builder;
 mod camera;
 
