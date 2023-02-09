@@ -3,4 +3,5 @@
 members = [
   "ch3-flappy-dragon",
   "ch5-dungeon-crawler",
+  "ch6-dungeon-denizens",
 ]
