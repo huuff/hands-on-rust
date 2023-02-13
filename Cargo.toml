@@ -5,4 +5,5 @@ members = [
   "ch5-dungeon-crawler",
   "ch6-dungeon-denizens",
   "ch7-take-turns",
+  "ch8-combat",
 ]
