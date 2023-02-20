@@ -8,4 +8,5 @@ members = [
   "ch8-combat",
   "ch9-victory-and-defeat",
   "ch10-fov",
+  "ch11-maps",
 ]
