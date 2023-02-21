@@ -11,4 +11,5 @@ members = [
   "ch11-maps",
   "ch12-themes",
   "ch13-inventory",
+  "ch14-levels",
 ]
