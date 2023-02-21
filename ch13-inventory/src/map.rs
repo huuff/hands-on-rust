@@ -6,6 +6,7 @@ const NUM_TILES: usize = (SCREEN_WIDTH * SCREEN_HEIGHT) as usize;
 pub enum TileType {
     Wall,
     Floor,
+    Exit,
 }
 
 pub struct Map {
@@ -18,38 +19,6 @@ impl Map {
         Self {
             tiles: vec![TileType::Floor; NUM_TILES],
             revealed_tiles: vec![false; NUM_TILES],
-        }
-    }
-
-    pub fn render(&self, ctx: &mut BTerm, camera: &Camera) {
-        ctx.set_active_console(0);
-        for y in camera.top_y .. camera.bottom_y {
-            for x in camera.left_x .. camera.right_x {
-                if self.in_bounds(Point::new(x, y)) {
-                    //println!("Rendering ({x}, {y})");
-                    let idx = map_idx(x, y);
-                    match self.tiles[idx] {
-                        TileType::Floor => {
-                            ctx.set(
-                                x - camera.left_x,
-                                y - camera.top_y,
-                                WHITE,
-                                BLACK,
-                                to_cp437('.')
-                            )
-                        },
-                        TileType::Wall => {
-                            ctx.set(
-                                x - camera.left_x,
-                                y - camera.top_y,
-                                WHITE,
-                                BLACK,
-                                to_cp437('#'),
-                            )
-                        }
-                    }
-                }
-            }
         }
     }
 
