@@ -10,4 +10,5 @@ members = [
   "ch10-fov",
   "ch11-maps",
   "ch12-themes",
+  "ch13-inventory",
 ]
