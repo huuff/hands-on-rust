@@ -9,4 +9,5 @@ members = [
   "ch9-victory-and-defeat",
   "ch10-fov",
   "ch11-maps",
+  "ch12-themes",
 ]
